@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px;">
+    <div style="max-width: 600px; margin: 0 auto; background: black; padding: 30px; border-radius: 8px; border: 1px solid #ddd;">
+        <!-- O Thymeleaf vai substituir o texto abaixo pelo nome real do usuário -->
+        <h2 style="color: #4F46E5;">Hello, <span th:text="${username}">User</span>!</h2>
+
+        <p style="color: white">Welcome to <strong style="color: rgb(8, 146, 200)">Auth Notify</strong>. Your registration has been completed!</p>
+        <p style="color: white">This is a project for learning <strong style="color: rgb(8, 146, 200)">OAuth2/OIDC</strong> and mensagery using <strong style="color: rgb(8, 146, 200)">RabbitMQ</strong> purposes.</p>
+
+        <div style="text-align: center; margin: 30px 0;">
+            <a href="https://www.linkedin.com/in/icaro-silva-10885a365/" style="background-color: #4F46E5; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-weight: bold;">
+                My linkedin
+            </a>
+        </div>
+        <div style="text-align: center; margin: 30px 0;">
+            <a href="https://github.com/icaro-silva2108" style="background-color: #4F46E5; color: white; padding: 12px 28px; text-decoration: none; border-radius: 5px; font-weight: bold;">
+                My GitHub
+            </a>
+        </div>
+    </div>
+</body>
+</html>
