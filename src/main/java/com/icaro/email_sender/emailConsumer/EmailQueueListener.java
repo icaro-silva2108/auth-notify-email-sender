@@ -1,6 +1,6 @@
 package com.icaro.email_sender.emailConsumer;
 
-import com.icaro.email_sender.model.UserCreatedEventDTO;
+import com.icaro.email_sender.model.UserEventDTO;
 import com.icaro.email_sender.service.EmailService;
 
 import jakarta.mail.MessagingException;
@@ -16,8 +16,11 @@ public class EmailQueueListener {
     private final EmailService emailService;
 
     @RabbitListener(queues = "email-queue")
-    public void listener(@Payload UserCreatedEventDTO message) throws MessagingException {
+    public void listener(@Payload UserEventDTO message) throws MessagingException {
 
-        emailService.sendWelcomeEmail(message);
+        switch(message.type()) {
+            case("user.created") -> emailService.sendWelcomeEmail(message);
+            case ("user.updated") -> emailService.sendUserUpdatedMessage(message);
+        }
     }
 }

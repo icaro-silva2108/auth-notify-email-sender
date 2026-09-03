@@ -1,6 +1,6 @@
 package com.icaro.email_sender.service;
 
-import com.icaro.email_sender.model.UserCreatedEventDTO;
+import com.icaro.email_sender.model.UserEventDTO;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -18,7 +18,7 @@ public class EmailService {
     private final JavaMailSender mailSender;
     private final SpringTemplateEngine templateEngine;
 
-    public void sendWelcomeEmail(UserCreatedEventDTO event) throws MessagingException {
+    public void sendWelcomeEmail(UserEventDTO event) throws MessagingException {
 
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper mimeHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
@@ -30,6 +30,23 @@ public class EmailService {
 
         mimeHelper.setTo(event.userEmail());
         mimeHelper.setSubject("Welcome to Auth Notify!");
+        mimeHelper.setText(htmlContent, true);
+
+        mailSender.send(mimeMessage);
+    }
+
+    public void sendUserUpdatedMessage(UserEventDTO event) throws MessagingException {
+
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
+        MimeMessageHelper mimeHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+
+        final Context context = new Context();
+        context.setVariable("username", event.name());
+
+        final String htmlContent = templateEngine.process("userUpdatedMessage", context);
+
+        mimeHelper.setTo(event.userEmail());
+        mimeHelper.setSubject("Profile Updated");
         mimeHelper.setText(htmlContent, true);
 
         mailSender.send(mimeMessage);
