@@ -1,6 +1,7 @@
 package com.icaro.email_sender.service;
 
 import com.icaro.email_sender.model.UserEventDTO;
+import com.icaro.email_sender.model.UserRoleChangedEventDTO;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -47,6 +48,24 @@ public class EmailService {
 
         mimeHelper.setTo(event.userEmail());
         mimeHelper.setSubject("Profile Updated");
+        mimeHelper.setText(htmlContent, true);
+
+        mailSender.send(mimeMessage);
+    }
+
+    public void sendUserRoleChangedMessage(UserRoleChangedEventDTO event) throws MessagingException {
+
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
+        MimeMessageHelper mimeHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+
+        final Context context = new Context();
+        context.setVariable("username", event.name());
+        context.setVariable("role", event.role());
+
+        final String htmlContent = templateEngine.process("userRoleChangedMessage", context);
+
+        mimeHelper.setTo(event.userEmail());
+        mimeHelper.setSubject("Role Changed");
         mimeHelper.setText(htmlContent, true);
 
         mailSender.send(mimeMessage);
