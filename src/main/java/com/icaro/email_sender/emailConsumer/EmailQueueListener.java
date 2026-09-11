@@ -1,8 +1,10 @@
 package com.icaro.email_sender.emailConsumer;
 
+import com.icaro.email_sender.model.UserEventMessageDTO;
 import com.icaro.email_sender.model.UserEventDTO;
 import com.icaro.email_sender.service.EmailService;
 
+import tools.jackson.databind.ObjectMapper;
 import jakarta.mail.MessagingException;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -14,13 +16,20 @@ import lombok.RequiredArgsConstructor;
 public class EmailQueueListener {
 
     private final EmailService emailService;
+    private final ObjectMapper objectMapper;
 
     @RabbitListener(queues = "email-queue")
-    public void listener(@Payload UserEventDTO message) throws MessagingException {
+    public void listener(@Payload UserEventMessageDTO message) throws MessagingException {
 
         switch(message.type()) {
-            case("user.created") -> emailService.sendWelcomeEmail(message);
-            case ("user.updated") -> emailService.sendUserUpdatedMessage(message);
+            case USER_CREATED ->  {
+                UserEventDTO payload = objectMapper.convertValue(message.payload(), UserEventDTO.class);
+                emailService.sendWelcomeEmail(payload);
+            }
+            case USER_UPDATED ->  {
+                UserEventDTO payload = objectMapper.convertValue(message.payload(), UserEventDTO.class);
+                emailService.sendUserUpdatedMessage(payload);
+            }
         }
     }
 }
