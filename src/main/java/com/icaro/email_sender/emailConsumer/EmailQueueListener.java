@@ -35,6 +35,10 @@ public class EmailQueueListener {
                 UserRoleChangedEventDTO payload = objectMapper.convertValue(message.payload(), UserRoleChangedEventDTO.class);
                 emailService.sendUserRoleChangedMessage(payload);
             }
+            case USER_DEACTIVATED -> {
+                UserEventDTO payload = objectMapper.convertValue(message.payload(), UserEventDTO.class);
+                emailService.sendUserDeactivatedMessage(payload);
+            }
         }
     }
 }

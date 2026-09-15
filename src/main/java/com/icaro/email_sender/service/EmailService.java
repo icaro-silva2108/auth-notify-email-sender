@@ -70,4 +70,21 @@ public class EmailService {
 
         mailSender.send(mimeMessage);
     }
+
+    public void sendUserDeactivatedMessage(UserEventDTO event) throws MessagingException {
+
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
+        MimeMessageHelper mimeHelper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+
+        final Context context = new Context();
+        context.setVariable("username", event.name());
+
+        final String htmlContent = templateEngine.process("userDeactivatedMessage", context);
+
+        mimeHelper.setTo(event.userEmail());
+        mimeHelper.setSubject("Profile Deactivated");
+        mimeHelper.setText(htmlContent, true);
+
+        mailSender.send(mimeMessage);
+    }
 }
