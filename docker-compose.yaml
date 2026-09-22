@@ -1,0 +1,19 @@
+version: "latest"
+
+services:
+
+  app:
+    build: .
+    container_name: email-sender
+    environment:
+      # Cloud AMQP
+      CLOUD_AMQP_URL: ${CLOUD_AMQP_URL}
+      CLOUD_AMQP_USERNAME: ${CLOUD_AMQP_USERNAME}
+      CLOUD_AMQP_PASSWORD: ${CLOUD_AMQP_PASSWORD}
+      CLOUD_AMQP_VIRTUAL_HOST: ${CLOUD_AMQP_VIRTUAL_HOST}
+
+      # SMTP Gmail
+      SMTP_GMAIL_USERNAME: ${SMTP_GMAIL_USERNAME}
+      SMTP_GMAIL_PASSWORD: ${SMTP_GMAIL_PASSWORD}
+    ports:
+      - "8081:8081"

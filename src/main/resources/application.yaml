@@ -1,6 +1,6 @@
 spring:
   application:
-    name: email_sender
+    name: email-sender
 
   rabbitmq:
     addresses: ${CLOUD_AMQP_URL}
