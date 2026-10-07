@@ -75,8 +75,14 @@ The `Email Sender` consumes messages from the queue:
 
 ```java
 @RabbitListener(queues = "email-queue")
-public void listener(UserCreatedEventDTO message) throws MessagingException {
-    emailService.sendWelcomeEmail(message);
+public void listener(@Payload UserEventMessageDTO message) throws MessagingException {
+
+     switch(message.type()) {
+         case USER_CREATED ->  {
+             UserEventDTO payload = objectMapper.convertValue(message.payload(), UserEventDTO.class);
+             emailService.sendWelcomeEmail(payload);
+         }
+    }
 }
 ```
 
