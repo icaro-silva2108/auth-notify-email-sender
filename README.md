@@ -189,11 +189,11 @@ If the `Email Sender` is unavailable, messages remain in the `RabbitMQ` queue un
 The project also explores RabbitMQ concepts such as:
 
 - `ACK` and `NACK`
-- Message requeueing( *Still in development* )
-- Retry strategies( *Still in development* )
-- TTL( *Still int development* )
-- Dead Letter Exchange( *Still in development* )
-- Dead Letter Queue( *Still in development* )
+- Message requeueing
+- Retry strategies
+- TTL
+- Dead Letter Exchange
+- Dead Letter Queue
 
 ---
 
